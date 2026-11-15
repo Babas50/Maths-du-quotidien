@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les maths du quotidien : règle de trois, soldes, conversions</title>
+<meta name="description" content="Calculatrice simple et pédagogique : règle de trois, pourcentages et soldes, conversions de mesures, avec la méthode expliquée pas à pas.">
+<meta name="theme-color" content="#6c5ce7">
+<link rel="icon" href="icones/icone.svg" type="image/svg+xml">
+<link rel="icon" href="icones/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Maths quotidien">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+:root{
+    --violet:#6c5ce7; --rose:#fd79a8; --jaune:#fdcb6e; --vert:#00b894; --bleu:#0984e3; --orange:#e17055;
+    --fond:#fff9f0; --texte:#2d3436;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,Arial,sans-serif;background:var(--fond);color:var(--texte);font-size:18px;-webkit-text-size-adjust:100%;line-height:1.5}
+  header{background:linear-gradient(120deg,var(--violet),var(--rose));color:#fff;padding:28px 20px 70px;text-align:center}
+  header h1{margin:0;font-size:2rem}
+  header p{margin:6px 0 0;opacity:.95}
+  .badge{display:inline-block;background:var(--jaune);color:var(--texte);font-weight:700;border-radius:20px;padding:2px 12px;font-size:.8rem;margin-bottom:10px}
+  main{max-width:900px;margin:-50px auto 40px;padding:0 16px}
+  .onglets{display:flex;gap:12px;margin-bottom:18px}
+  .onglet{flex:1;border:none;border-radius:16px;padding:16px;font-size:1.1rem;font-weight:700;cursor:pointer;background:#fff;color:var(--texte);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .onglet.actif.o1{background:var(--bleu);color:#fff}
+  .onglet.actif.o2{background:var(--orange);color:#fff}
+  .carte{background:#fff;border-radius:20px;padding:24px;box-shadow:0 6px 20px rgba(0,0,0,.07);margin-bottom:20px}
+  .carte h2{margin-top:0}
+  .enonce{background:#eef6ff;border-left:6px solid var(--bleu);border-radius:10px;padding:12px 16px;font-size:1.1rem}
+  .p2 .enonce{background:#fff1ec;border-color:var(--orange)}
+  .champs{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0}
+  .champ{flex:1;min-width:180px}
+  .champ label{display:block;font-weight:600;font-size:.95rem;margin-bottom:4px}
+  .champ input{width:100%;font-size:1.2rem;padding:10px 12px;border:3px solid #dfe6e9;border-radius:12px}
+  .champ input:focus{outline:none;border-color:var(--violet)}
+  table.prop{border-collapse:collapse;margin:14px auto;font-size:1.15rem}
+  table.prop td{border:3px solid var(--violet);padding:10px 22px;text-align:center;min-width:110px}
+  table.prop td.tete{background:#f1edff;font-weight:700}
+  table.prop td.inconnu{background:var(--jaune);font-weight:800}
+  .etape{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:14px;margin:12px 0;background:#f8f9fa}
+  .num{flex:none;width:40px;height:40px;border-radius:50%;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+  .e1 .num{background:var(--bleu)} .e2 .num{background:var(--violet)} .e3 .num{background:var(--vert)}
+  .etape h3{margin:0 0 4px;font-size:1.05rem}
+  .calc{font-family:Consolas,monospace;background:#fff;border:2px dashed #b2bec3;border-radius:8px;padding:6px 10px;display:inline-block;margin-top:4px}
+  .resultat{background:linear-gradient(120deg,var(--vert),#55efc4);color:#fff;border-radius:16px;padding:16px 20px;font-size:1.3rem;font-weight:700;text-align:center;margin-top:16px}
+  .astuce{background:#fffbe6;border:2px solid var(--jaune);border-radius:14px;padding:12px 16px;margin-top:16px}
+  .attention{background:#ffeef2;border:2px solid var(--rose);border-radius:14px;padding:12px 16px;margin-top:16px}
+  .etiquette{position:relative;display:inline-block;background:#fff;border:3px solid var(--orange);border-radius:12px;padding:10px 18px;text-align:center}
+  .etiquette .barre{text-decoration:line-through;color:#888}
+  .etiquette .neuf{font-size:1.6rem;font-weight:800;color:var(--orange)}
+  .etiquette .pastille{position:absolute;top:-16px;right:-16px;background:var(--rose);color:#fff;border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-weight:800;transform:rotate(12deg)}
+  .barre-prix{display:flex;height:34px;border-radius:10px;overflow:hidden;margin:10px 0;font-weight:700;color:#fff;font-size:.9rem}
+  .barre-prix div{display:flex;align-items:center;justify-content:center;white-space:nowrap}
+  .sous-onglets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .sous-onglets button{border:2px solid var(--orange);background:#fff;color:var(--orange);border-radius:20px;padding:6px 14px;font-weight:600;cursor:pointer;font-size:.95rem}
+  .sous-onglets button.actif{background:var(--orange);color:#fff}
+  .cache{display:none}
+
+  .mode{display:flex;justify-content:center;gap:0;margin:0 auto 18px;background:#fff;border-radius:30px;padding:5px;box-shadow:0 4px 14px rgba(0,0,0,.08);width:fit-content}
+  .mode button{border:none;background:none;padding:10px 20px;border-radius:25px;font-size:1rem;font-weight:700;cursor:pointer;color:#636e72}
+  .mode button.actif{background:var(--violet);color:#fff}
+  body.rapide .pedago{display:none}
+  .unites{display:flex;flex-wrap:wrap;gap:14px;background:#f1edff;border-radius:14px;padding:12px 16px;margin-top:14px}
+  .unites .champ input{font-size:1rem;padding:8px 10px}
+  .outils{display:flex;gap:10px;flex-wrap:wrap}
+  .outils button{border:2px solid #b2bec3;background:#fff;border-radius:20px;padding:6px 14px;cursor:pointer;font-weight:600;font-size:.9rem}
+  .question{font-size:1.15rem;font-weight:600;margin:6px 0}
+  .ligne-calc{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:1.1rem;margin:10px 0}
+  .ligne-calc input{width:130px;font-size:1.2rem;padding:8px 10px;border:3px solid #dfe6e9;border-radius:12px}
+  .ligne-calc .u{font-weight:700;color:var(--violet)}
+  .resultat.vide{background:#dfe6e9;color:#636e72}
+  .onglet.actif.o3{background:var(--vert);color:#fff}
+  .p3 .sous-onglets button{border-color:var(--vert);color:var(--vert)}
+  .p3 .sous-onglets button.actif{background:var(--vert);color:#fff}
+  .conv{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:16px 0}
+  .conv select{font-size:1.15rem;padding:9px 10px;border:3px solid #dfe6e9;border-radius:12px;background:#fff}
+  .conv input{width:150px;font-size:1.2rem;padding:9px 10px;border:3px solid #dfe6e9;border-radius:12px}
+  .conv .fleche{font-size:1.6rem;padding-bottom:6px}
+  .conv .inverser{border:2px solid var(--vert);background:#fff;border-radius:50%;width:44px;height:44px;font-size:1.2rem;cursor:pointer}
+  .tabconv{overflow-x:auto;margin:12px 0}
+  table.tc{border-collapse:collapse;margin:0 auto;font-size:1.1rem}
+  table.tc th{background:var(--vert);color:#fff;padding:8px 12px;border:2px solid #fff;min-width:54px}
+  table.tc td{border:2px solid #dfe6e9;text-align:center;padding:8px 6px;font-weight:700;height:42px;position:relative}
+  table.tc th.src{background:var(--bleu)} table.tc th.dst{background:var(--orange)}
+  table.tc td.zero{color:var(--rose)}
+  table.tc td.virg::after{content:",";position:absolute;right:-6px;bottom:4px;color:var(--orange);font-size:1.6rem;font-weight:900}
+  .legende{text-align:center;font-size:.9rem;color:#636e72}
+  .legende b.b{color:var(--bleu)} .legende b.o{color:var(--orange)} .legende b.r{color:var(--rose)}
+  footer{text-align:center;color:#636e72;font-size:.85rem;padding-bottom:30px}
+
+  input,select,button{font-family:inherit}
+  .etape > div:last-child{flex:1;min-width:0}
+  button{touch-action:manipulation}
+  header{padding-top:max(28px, env(safe-area-inset-top))}
+  @media (max-width:640px){
+    body{font-size:16px}
+    header{padding:22px 14px 64px}
+    header h1{font-size:1.5rem}
+    main{padding:0 10px}
+    .mode{width:100%}
+    .mode button{flex:1;padding:10px 8px;font-size:.95rem}
+    .onglets{gap:6px}
+    .onglet{padding:12px 4px;font-size:.88rem;border-radius:12px}
+    .carte{padding:16px;border-radius:16px}
+    .carte h2{font-size:1.3rem}
+    .champ{min-width:100%}
+    .ligne-calc input{width:96px}
+    .ligne-calc{gap:6px}
+    table.tc th{min-width:0;padding:6px 5px;font-size:.85rem}
+    table.tc td{padding:6px 3px}
+    .conv .champ{min-width:0}
+    .conv input{width:110px}
+    .conv select{max-width:42vw}
+    .etape{padding:10px;gap:10px}
+    .num{width:32px;height:32px;font-size:1rem}
+    .calc{font-size:.9rem;word-break:break-word}
+    table.prop td{padding:8px 10px;min-width:70px}
+    .resultat{font-size:1.1rem}
+    .sous-onglets button{font-size:.85rem}
+  }
+</style>
+</head>
+<body class="rapide">
+<header>
+  <h1>🧮 Les maths du quotidien</h1>
+  <p>Calcule avec tes propres chiffres, et apprends la méthode si tu veux</p>
+</header>
+
+<main>
+  <div class="mode">
+    <button id="mR" class="actif" onclick="mode(true)">⚡ Calcul rapide</button>
+    <button id="mA" onclick="mode(false)">🎓 Apprendre la méthode</button>
+  </div>
+  <div class="onglets">
+    <button class="onglet o1 actif" onclick="voir(1)">① Règle de trois</button>
+    <button class="onglet o2" onclick="voir(2)">② Soldes et pourcentages</button>
+    <button class="onglet o3" onclick="voir(3)">③ Conversions</button>
+  </div>
+
+  <!-- ============ PARTIE 1 ============ -->
+  <section id="p1">
+    <div class="carte">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <h2 style="margin:0">① La règle de trois</h2>
+        <div class="outils">
+          <button onclick="exemple(0)">🥖 Exemple baguettes</button>
+          <button onclick="exemple(1)">🚗 Exemple essence</button>
+          <button onclick="exemple(2)">🍰 Exemple recette</button>
+          <button onclick="effacer()">🧽 Effacer</button>
+        </div>
+      </div>
+
+      <div class="unites">
+        <div class="champ"><label>Ce que je compte (ex : baguettes, km, personnes)</label><input id="uA" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" value="baguettes"></div>
+        <div class="champ"><label>Ce que je cherche (ex : €, litres, grammes)</label><input id="uB" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" value="€"></div>
+      </div>
+
+      <p class="question">Je connais :</p>
+      <div class="ligne-calc"><input id="a" type="text" inputmode="decimal" autocomplete="off" value="3"> <span class="u uA"></span> ➜ <input id="b" type="text" inputmode="decimal" autocomplete="off" value="2,70"> <span class="u uB"></span></div>
+      <p class="question">Je veux savoir pour :</p>
+      <div class="ligne-calc"><input id="c" type="text" inputmode="decimal" autocomplete="off" value="5"> <span class="u uA"></span> ➜ <b style="font-size:1.4rem">?</b> <span class="u uB"></span></div>
+
+      <div class="resultat" id="r1"></div>
+
+      <div class="pedago">
+        <h3>Le tableau de proportionnalité</h3>
+        <table class="prop">
+          <tr><td class="tete uA"></td><td id="tA"></td><td id="tC"></td></tr>
+          <tr><td class="tete uB"></td><td id="tB"></td><td class="inconnu" id="tX">?</td></tr>
+        </table>
+        <div class="etape e1"><div class="num">1</div><div>
+          <h3>Je reviens à 1 (<span id="un1"></span>)</h3>
+          <span id="s1"></span>
+          <div class="calc" id="c1"></div>
+        </div></div>
+        <div class="etape e2"><div class="num">2</div><div>
+          <h3>Je multiplie par ce que je veux</h3>
+          <span id="s2"></span>
+          <div class="calc" id="c2"></div>
+        </div></div>
+        <div class="etape e3"><div class="num">3</div><div>
+          <h3>La formule rapide (le « produit en croix »)</h3>
+          On multiplie les deux nombres en diagonale, puis on divise par le troisième :
+          <div class="calc" id="c3"></div>
+        </div></div>
+        <div class="astuce">💡 <b>À retenir :</b> on revient toujours à <b>1</b> (une baguette, un kilo, une heure...), puis on multiplie.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARTIE 2 ============ -->
+  <section id="p2" class="p2 cache">
+    <div class="carte">
+      <h2>② Soldes et pourcentages</h2>
+      <div class="sous-onglets">
+        <button class="actif" onclick="sous('remise',this)">🏷️ Prix soldé</button>
+        <button onclick="sous('succ',this)">🔁 Remises successives</button>
+        <button onclick="sous('depart',this)">↩️ Retrouver le prix de départ</button>
+      </div>
+
+      <!-- Remise simple -->
+      <div id="remise">
+        <p class="question">Tape le prix affiché et la remise :</p>
+        <div class="champs">
+          <div class="champ"><label>Prix de départ (€)</label><input id="p" type="text" inputmode="decimal" autocomplete="off" value="80"></div>
+          <div class="champ"><label>Remise (%)</label><input id="r" type="text" inputmode="decimal" autocomplete="off" value="30"></div>
+        </div>
+        <div class="resultat" id="r2"></div>
+        <div style="text-align:center;margin:26px 0 6px">
+          <div class="etiquette"><div class="pastille" id="pa"></div>
+            <div class="barre" id="ea"></div><div class="neuf" id="en"></div></div>
+        </div>
+        <div class="barre-prix" id="barre"></div>
+        <div class="pedago">
+          <div class="etape e1"><div class="num">1</div><div>
+            <h3>Que veut dire « <span id="e1r"></span> % » ?</h3>
+            « Pour cent » veut dire « sur 100 ». <span id="e1r2"></span> % = <span id="e1r3"></span> € de réduction pour chaque tranche de 100 €.
+          </div></div>
+          <div class="etape e2"><div class="num">2</div><div>
+            <h3>Je calcule le montant de la remise</h3>
+            <div class="calc" id="c4"></div>
+          </div></div>
+          <div class="etape e3"><div class="num">3</div><div>
+            <h3>J'enlève la remise du prix de départ</h3>
+            <div class="calc" id="c5"></div>
+          </div></div>
+          <div class="astuce">💡 <b>Astuce de pro :</b> <span id="ast"></span></div>
+        </div>
+      </div>
+
+      <!-- Remises successives -->
+      <div id="succ" class="cache">
+        <p class="question">Tape le prix et les deux remises :</p>
+        <div class="champs">
+          <div class="champ"><label>Prix de départ (€)</label><input id="sp" type="text" inputmode="decimal" autocomplete="off" value="100"></div>
+          <div class="champ"><label>1re remise (%)</label><input id="sr1" type="text" inputmode="decimal" autocomplete="off" value="30"></div>
+          <div class="champ"><label>2e remise (%)</label><input id="sr2" type="text" inputmode="decimal" autocomplete="off" value="20"></div>
+        </div>
+        <div class="resultat" id="r3"></div>
+        <div class="attention">⚠️ <b>Le piège :</b> <span id="piege"></span></div>
+        <div class="pedago">
+          <div class="etape e1"><div class="num">1</div><div>
+            <h3>Première remise, sur le prix de départ</h3><div class="calc" id="c6"></div></div></div>
+          <div class="etape e2"><div class="num">2</div><div>
+            <h3>Deuxième remise, sur le NOUVEAU prix</h3><div class="calc" id="c7"></div></div></div>
+          <div class="etape e3"><div class="num">3</div><div>
+            <h3>La remise totale réelle</h3><div class="calc" id="c8"></div></div></div>
+        </div>
+      </div>
+
+      <!-- Prix de départ -->
+      <div id="depart" class="cache">
+        <p class="question">J'ai payé un prix soldé, quel était le prix avant la remise ?</p>
+        <div class="champs">
+          <div class="champ"><label>Prix payé (€)</label><input id="dp" type="text" inputmode="decimal" autocomplete="off" value="56"></div>
+          <div class="champ"><label>Remise appliquée (%)</label><input id="dr" type="text" inputmode="decimal" autocomplete="off" value="30"></div>
+        </div>
+        <div class="resultat" id="r4"></div>
+        <div class="attention">⚠️ <b>Le piège :</b> <span id="piege2"></span></div>
+        <div class="pedago">
+          <div class="etape e1"><div class="num">1</div><div>
+            <h3>Quelle part du prix ai-je payée ?</h3><div class="calc" id="c9"></div></div></div>
+          <div class="etape e2"><div class="num">2</div><div>
+            <h3>C'est une règle de trois !</h3><span id="s10"></span><div class="calc" id="c10"></div></div></div>
+          <div class="etape e3"><div class="num">3</div><div>
+            <h3>Je vérifie</h3><div class="calc" id="c11"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARTIE 3 ============ -->
+  <section id="p3" class="p3 cache">
+    <div class="carte">
+      <h2>③ Convertir les mesures</h2>
+      <div class="sous-onglets" id="cats"></div>
+      <div class="conv">
+        <div class="champ" style="flex:none"><label>Valeur</label><input id="cv" type="text" inputmode="decimal" autocomplete="off" value="2,5"></div>
+        <div class="champ" style="flex:none"><label for="cde">De</label><select id="cde"></select></div>
+        <span class="fleche">➜</span>
+        <div class="champ" style="flex:none"><label for="cvers">Vers</label><select id="cvers"></select></div>
+        <button class="inverser" title="Inverser" onclick="inverser()">⇄</button>
+      </div>
+      <div class="resultat" id="r5"></div>
+      <div class="pedago" id="m5"></div>
+    </div>
+  </section>
+</main>
+<footer>Les maths du quotidien · fonctionne sur ordinateur, tablette et téléphone, sans installation.</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const brut = id => ($(id).value||"").trim();
+const n = id => { const t = brut(id).replace(/[\s\u00a0\u202f]/g,"").replace(",", "."); return /^[-+]?(\d+\.?\d*|\.\d+)$/.test(t) ? parseFloat(t) : NaN; };
+const ok = (...v) => v.every(x => Number.isFinite(x));
+const f = x => (Math.round(x*100)/100).toLocaleString("fr-FR",{maximumFractionDigits:2});
+const e = x => (Math.round(x*100)/100).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const f4 = x => (Math.round(x*10000)/10000).toLocaleString("fr-FR",{maximumFractionDigits:4});
+const set = (id, html) => $(id).innerHTML = html;
+const vide = (id, msg) => { $(id).classList.add("vide"); set(id, msg); };
+const plein = (id, msg) => { $(id).classList.remove("vide"); set(id, msg); };
+
+function mode(r){ document.body.classList.toggle("rapide", r); $("mR").classList.toggle("actif", r); $("mA").classList.toggle("actif", !r); }
+function voir(i){
+  [1,2,3].forEach(k=>{ $("p"+k).classList.toggle("cache", i!==k); document.querySelector(".o"+k).classList.toggle("actif", i===k); });
+}
+function sous(id, btn){
+  ["remise","succ","depart"].forEach(x => $(x).classList.toggle("cache", x!==id));
+  document.querySelectorAll("#p2 .sous-onglets button").forEach(b => b.classList.remove("actif"));
+  btn.classList.add("actif");
+}
+const EX = [["baguettes","€","3","2,70","5"],["km","litres d'essence","100","6,5","350"],["personnes","g de farine","4","250","6"]];
+function exemple(i){ ["uA","uB","a","b","c"].forEach((k,j)=>$(k).value=EX[i][j]); tout(); }
+function effacer(){ ["uA","uB","a","b","c"].forEach(k=>$(k).value=""); tout(); $("uA").focus(); }
+
+function partie1(){
+  const uA = brut("uA") || "unités", uB = brut("uB") || "";
+  document.querySelectorAll(".uA").forEach(x=>x.textContent=uA);
+  document.querySelectorAll(".uB").forEach(x=>x.textContent=uB || "résultat");
+  const a=n("a"), b=n("b"), c=n("c");
+  if(!ok(a,b,c)){ vide("r1","✏️ Remplis les 3 nombres pour voir le résultat"); return; }
+  if(a===0){ vide("r1","⚠️ La première quantité ne peut pas être 0 (on ne peut pas diviser par 0)"); return; }
+  const u=b/a, x=u*c;
+  const fx = /€|euro/i.test(uB) ? e : f;
+  set("tA", f(a)); set("tB", fx(b)); set("tC", f(c)); set("tX", fx(x));
+  set("un1", `1 ${uA}`);
+  set("s1", `Si ${f(a)} ${uA} ➜ ${fx(b)} ${uB}, alors pour 1, c'est ${f(a)} fois moins. Je divise :`);
+  set("c1", `${fx(b)} ÷ ${f(a)} = <b>${f4(u)} ${uB}</b> pour 1 ${uA}`);
+  set("s2", `Je veux ${f(c)} ${uA}, donc ${f(c)} fois plus :`);
+  set("c2", `${f4(u)} × ${f(c)} = <b>${fx(x)} ${uB}</b>`);
+  set("c3", `(${fx(b)} × ${f(c)}) ÷ ${f(a)} = ${f(b*c)} ÷ ${f(a)} = <b>${fx(x)} ${uB}</b>`);
+  plein("r1", `✅ ${f(c)} ${uA} ➜ ${fx(x)} ${uB}`);
+}
+
+function partie2(){
+  const p=n("p"), r=n("r");
+  if(!ok(p,r)){ vide("r2","✏️ Remplis le prix et la remise"); return; }
+  if(p<0){ vide("r2","⚠️ Le prix ne peut pas être négatif"); return; }
+  if(r<0||r>100){ vide("r2","⚠️ La remise doit être comprise entre 0 et 100 %"); return; }
+  const m=p*r/100, fin=p-m;
+  ["e1r","e1r2","e1r3"].forEach(i=>set(i,f(r)));
+  set("c4", `${f(r)} % de ${e(p)} € = ${e(p)} × ${f(r)} ÷ 100 = <b>${e(m)} €</b> de réduction`);
+  set("c5", `${e(p)} − ${e(m)} = <b>${e(fin)} €</b>`);
+  const pct = Math.max(0,Math.min(100,r));
+  set("barre", `<div style="width:${100-pct}%;background:var(--vert)">Je paie ${e(fin)} €</div><div style="width:${pct}%;background:var(--rose)">J'économise ${e(m)} €</div>`);
+  set("pa", `-${f(r)}%`); set("ea", `${e(p)} €`); set("en", `${e(fin)} €`);
+  set("ast", `enlever ${f(r)} %, c'est payer ${f(100-r)} % du prix. Donc directement : ${e(p)} × ${f((100-r)/100)} = <b>${e(fin)} €</b>.`);
+  plein("r2", `✅ Je paie ${e(fin)} € (j'économise ${e(m)} €)`);
+}
+
+function partie3(){
+  const p=n("sp"), r1=n("sr1"), r2=n("sr2");
+  if(!ok(p,r1,r2)){ vide("r3","✏️ Remplis le prix et les deux remises"); return; }
+  if(p<=0){ vide("r3","⚠️ Le prix doit être plus grand que 0"); return; }
+  if(r1<0||r1>100||r2<0||r2>100){ vide("r3","⚠️ Chaque remise doit être comprise entre 0 et 100 %"); return; }
+  const m1=p*r1/100, p1=p-m1, m2=p1*r2/100, p2=p1-m2, tot=p? (p-p2)/p*100 : 0;
+  set("piege", `-${f(r1)} % puis -${f(r2)} %, ce n'est PAS -${f(r1+r2)} % ! La 2e remise s'applique sur un prix déjà baissé.`);
+  set("c6", `${e(p)} × ${f(r1)} ÷ 100 = ${e(m1)} € ➜ ${e(p)} − ${e(m1)} = <b>${e(p1)} €</b>`);
+  set("c7", `${e(p1)} × ${f(r2)} ÷ 100 = ${e(m2)} € ➜ ${e(p1)} − ${e(m2)} = <b>${e(p2)} €</b>`);
+  set("c8", `J'ai économisé ${e(p-p2)} € sur ${e(p)} €, soit <b>${f(tot)} %</b> (et non ${f(r1+r2)} %)`);
+  plein("r3", `✅ Je paie ${e(p2)} € (remise réelle : ${f(tot)} %)`);
+}
+
+function partie4(){
+  const d=n("dp"), r=n("dr");
+  if(!ok(d,r)){ vide("r4","✏️ Remplis le prix payé et la remise"); return; }
+  if(d<0){ vide("r4","⚠️ Le prix payé ne peut pas être négatif"); return; }
+  if(r>=100){ vide("r4","⚠️ Impossible avec une remise de 100 % ou plus : l'article serait gratuit, on ne peut pas retrouver son prix"); return; }
+  if(r<0){ vide("r4","⚠️ La remise ne peut pas être négative"); return; }
+  const part=100-r, ini=d/part*100;
+  set("piege2", `on ne rajoute PAS ${f(r)} % au prix payé (${e(d)} + ${f(r)} % = ${e(d*(1+r/100))} €, c'est faux), car les ${f(r)} % portaient sur l'ancien prix, pas sur celui-ci.`);
+  set("c9", `100 % − ${f(r)} % = <b>${f(part)} %</b> du prix de départ`);
+  set("s10", `${f(part)} % ➜ ${e(d)} €, donc 100 % ➜ ?`);
+  set("c10", `${e(d)} ÷ ${f(part)} × 100 = <b>${e(ini)} €</b>`);
+  set("c11", `${e(ini)} − ${f(r)} % = ${e(ini)} × ${f(part/100)} = ${e(ini*part/100)} € ✔️`);
+  plein("r4", `✅ Le prix de départ était ${e(ini)} €`);
+}
+
+
+/* ---------- Partie 3 : conversions ---------- */
+// e = puissance de 10 par rapport à l'unité de base ; pas = nb de colonnes par unité dans le tableau
+const CATS = {
+  longueur:{nom:"📏 Longueurs", pas:1, base:"m", u:[["km","kilomètre",3],["hm","hectomètre",2],["dam","décamètre",1],["m","mètre",0],["dm","décimètre",-1],["cm","centimètre",-2],["mm","millimètre",-3]], def:["km","m"]},
+  masse:{nom:"⚖️ Masses", pas:1, base:"g", u:[["kg","kilogramme",3],["hg","hectogramme",2],["dag","décagramme",1],["g","gramme",0],["dg","décigramme",-1],["cg","centigramme",-2],["mg","milligramme",-3]], def:["kg","g"]},
+  contenance:{nom:"🥛 Contenances", pas:1, base:"L", u:[["hL","hectolitre",2],["daL","décalitre",1],["L","litre",0],["dL","décilitre",-1],["cL","centilitre",-2],["mL","millilitre",-3]], def:["L","cL"]},
+  aire:{nom:"🟩 Aires", pas:2, base:"m²", u:[["km²","kilomètre carré",6],["ha","hectare (= hm²)",4],["a","are (= dam²)",2],["m²","mètre carré",0],["dm²","décimètre carré",-2],["cm²","centimètre carré",-4],["mm²","millimètre carré",-6]], def:["ha","m²"]},
+  volume:{nom:"🧊 Volumes", pas:3, base:"m³", u:[["m³","mètre cube",0],["dm³","décimètre cube (= 1 L)",-3],["L","litre (= dm³)",-3],["cm³","centimètre cube (= 1 mL)",-6],["mL","millilitre (= cm³)",-6],["mm³","millimètre cube",-9]], def:["m³","L"]},
+  duree:{nom:"⏱️ Durées", sexa:true, u:[["sem","semaine",604800],["j","jour",86400],["h","heure",3600],["min","minute",60],["s","seconde",1]], def:["h","min"]},
+  temp:{nom:"🌡️ Températures", temp:true, u:[["°C","degré Celsius"],["°F","degré Fahrenheit"],["K","kelvin"]], def:["°C","°F"]}
+};
+let cat="longueur";
+const propre = x => Number(x.toPrecision(12));
+const fl = x => propre(x).toLocaleString("fr-FR",{maximumFractionDigits:10});
+const unite = sym => CATS[cat].u.find(u=>u[0]===sym);
+
+function choisirCat(k){
+  cat=k; const C=CATS[k];
+  document.querySelectorAll("#cats button").forEach(b=>b.classList.toggle("actif", b.dataset.k===k));
+  const opts = C.u.map(u=>`<option value="${u[0]}">${u[0]} (${u[1]})</option>`).join("");
+  $("cde").innerHTML=opts; $("cvers").innerHTML=opts;
+  $("cde").value=C.def[0]; $("cvers").value=C.def[1];
+  partie5();
+}
+function inverser(){ const a=$("cde").value; $("cde").value=$("cvers").value; $("cvers").value=a; partie5(); }
+
+function tableau(v, de, vers){
+  // tableau de conversion avec les chiffres placés (unités à 1 colonne seulement)
+  const C=CATS[cat]; const cols=C.u.map(u=>u[0]);
+  const s=cols.indexOf(de), t=cols.indexOf(vers);
+  const txt=Math.abs(v).toLocaleString("en",{useGrouping:false,maximumFractionDigits:10});
+  const [ent, dec=""]=txt.split(".");
+  const cell={};
+  for(let i=0;i<ent.length;i++) cell[s-(ent.length-1)+i]={c:ent[i]};
+  for(let i=0;i<dec.length;i++) cell[s+1+i]={c:dec[i]};
+  const idx=Object.keys(cell).map(Number);
+  let lo=Math.min(...idx), hi=Math.max(...idx);
+  for(let i=hi+1;i<=t;i++) cell[i]={c:"0",z:true};
+  for(let i=lo-1;i>=Math.min(t,lo);i--) if(i<lo) cell[i]=cell[i]||{c:"0",z:true};
+  const keys=Object.keys(cell).map(Number);
+  if(Math.min(...keys)<0 || Math.max(...keys)>=cols.length) return "";
+  const th=cols.map((c,i)=>`<th class="${i===s?"src":""} ${i===t?"dst":""}">${c}</th>`).join("");
+  const td=cols.map((c,i)=>{const x=cell[i]; return `<td class="${x&&x.z?"zero":""} ${i===s&&dec?"":""} ${i===t?"virg":""}">${x?x.c:""}</td>`}).join("");
+  return `<div class="tabconv"><table class="tc"><tr>${th}</tr><tr>${td}</tr></table></div>
+  <p class="legende">Je place le chiffre des unités sous <b class="b">${de}</b>, j'ajoute des <b class="r">0</b> si besoin, et je lis le nombre en mettant la virgule après <b class="o">${vers}</b>.</p>`;
+}
+
+function hms(sec){
+  const parts=[]; let r=Math.round(sec*1000)/1000;
+  [["j",86400],["h",3600],["min",60]].forEach(([n,q])=>{const k=Math.floor(r/q); if(k){parts.push(`${k} ${n}`); r-=k*q;}});
+  r=propre(r); if(r||!parts.length) parts.push(`${fl(r)} s`);
+  return parts.join(" ");
+}
+
+function partie5(){
+  const C=CATS[cat], v=n("cv"), de=$("cde").value, vers=$("cvers").value;
+  if(!ok(v)){ vide("r5","✏️ Tape une valeur à convertir"); set("m5",""); return; }
+  if(!C.temp && v<0){ vide("r5","⚠️ Tape un nombre positif (seules les températures peuvent être négatives)"); set("m5",""); return; }
+  let res, m="";
+  if(C.temp){
+    const toC={"°C":x=>x,"°F":x=>(x-32)*5/9,"K":x=>x-273.15}[de](v);
+    res={"°C":toC,"°F":toC*9/5+32,"K":toC+273.15}[vers];
+    const F={"°C→°F":`(${fl(v)} × 9 ÷ 5) + 32 = <b>${fl(res)} °F</b>`,"°F→°C":`(${fl(v)} − 32) × 5 ÷ 9 = <b>${fl(res)} °C</b>`,
+      "°C→K":`${fl(v)} + 273,15 = <b>${fl(res)} K</b>`,"K→°C":`${fl(v)} − 273,15 = <b>${fl(res)} °C</b>`,
+      "°F→K":`(${fl(v)} − 32) × 5 ÷ 9 = ${fl(toC)} °C, puis + 273,15 = <b>${fl(res)} K</b>`,"K→°F":`${fl(v)} − 273,15 = ${fl(toC)} °C, puis × 9 ÷ 5 + 32 = <b>${fl(res)} °F</b>`}[de+"→"+vers] || `<b>${fl(res)} ${vers}</b>`;
+    m=`<div class="attention">⚠️ <b>Attention :</b> les températures ne se convertissent pas avec un tableau ni une simple multiplication, car le 0 n'est pas au même endroit (0 °C = 32 °F).</div>
+      <div class="etape e1"><div class="num">1</div><div><h3>La formule à utiliser</h3><div class="calc">${F}</div></div></div>
+      <div class="astuce">💡 <b>Repères :</b> l'eau gèle à 0 °C = 32 °F et bout à 100 °C = 212 °F. Le corps humain : 37 °C ≈ 98,6 °F.</div>`;
+  } else if(C.sexa){
+    const fd=unite(de)[2], ft=unite(vers)[2], sec=v*fd; res=sec/ft;
+    const op = fd>ft ? `${fl(v)} × ${fl(fd/ft)} = <b>${fl(res)} ${vers}</b>` : `${fl(v)} ÷ ${fl(ft/fd)} = <b>${fl(res)} ${vers}</b>`;
+    m=`<div class="attention">⚠️ <b>Le piège :</b> les durées ne comptent PAS par 10 ! 1 h = 60 min (et non 100), donc 2,5&nbsp;h = 2&nbsp;h&nbsp;30&nbsp;min, pas 2&nbsp;h&nbsp;50&nbsp;min.</div>
+      <div class="etape e1"><div class="num">1</div><div><h3>Combien de ${vers} dans 1 ${de} ?</h3>
+        <div class="calc">1 ${de} = ${fl(fd/ft)} ${vers}</div></div></div>
+      <div class="etape e2"><div class="num">2</div><div><h3>Je ${fd>ft?"multiplie":"divise"}</h3><div class="calc">${op}</div></div></div>
+      <div class="etape e3"><div class="num">3</div><div><h3>Écrit comme sur une horloge</h3><div class="calc">${fl(v)} ${de} = <b>${hms(sec)}</b></div></div></div>
+      <div class="astuce">💡 <b>Repères :</b> 1 j = 24 h · 1 h = 60 min · 1 min = 60 s · 1 h = 3 600 s</div>`;
+  } else {
+    const es=unite(de)[2], et=unite(vers)[2], k=es-et; res=propre(v*Math.pow(10,k));
+    const fact=Math.pow(10,Math.abs(k)).toLocaleString("fr-FR"), rangs=Math.abs(k);
+    const cols=C.pas>1?` (en ${C.nom.split(" ")[1].toLowerCase()}, chaque unité vaut <b>${C.pas} colonnes</b> dans le tableau)`:"";
+    if(k===0){ m=`<div class="astuce">💡 ${de} et ${vers} sont la même chose : ${unite(de)[1]}.</div>`; }
+    else m=`<div class="etape e1"><div class="num">1</div><div><h3>Je vais vers une unité plus ${k>0?"petite":"grande"}</h3>
+        ${k>0?`Une unité plus petite, il en faut <b>plus</b> : le nombre devient plus grand.`:`Une unité plus grande, il en faut <b>moins</b> : le nombre devient plus petit.`}${cols}
+        <div class="calc">1 ${k>0?de:vers} = ${fact} ${k>0?vers:de}</div></div></div>
+      <div class="etape e2"><div class="num">2</div><div><h3>Je ${k>0?"multiplie":"divise"} par ${fact}</h3>
+        La virgule se décale de <b>${rangs} rang${rangs>1?"s":""} vers la ${k>0?"droite":"gauche"}</b> :
+        <div class="calc">${fl(v)} ${k>0?"×":"÷"} ${fact} = <b>${fl(res)} ${vers}</b></div></div></div>
+      ${C.pas===1?`<div class="etape e3"><div class="num">3</div><div><h3>Avec le tableau de conversion</h3>${tableau(v,de,vers)||"<i>Nombre trop grand pour le tableau, utilise l'étape 2.</i>"}</div></div>`:""}
+      <div class="astuce">💡 <b>Moyen mnémotechnique :</b> <b>k</b>ilo <b>h</b>ecto <b>da</b>(déca) <b>unité</b> <b>d</b>éci <b>c</b>enti <b>m</b>illi. « Kilo Hecto Déca, Unité, Déci Centi Milli ».</div>`;
+  }
+  plein("r5", `✅ ${fl(v)} ${de} = ${fl(res)} ${vers}`);
+  set("m5", m);
+}
+$("cats").innerHTML = Object.entries(CATS).map(([k,c])=>`<button data-k="${k}" onclick="choisirCat('${k}')">${c.nom}</button>`).join("");
+$("cde").addEventListener("change", partie5); $("cvers").addEventListener("change", partie5);
+choisirCat("longueur");
+
+function tout(){ partie1(); partie2(); partie3(); partie4(); partie5(); }
+document.querySelectorAll("input").forEach(i => i.addEventListener("input", tout));
+tout();
+
+/* ---------- Appli installable : fonctionnement hors connexion ---------- */
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+</script>
+
+</body>
+</html>
