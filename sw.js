@@ -1,7 +1,7 @@
 // Service worker : permet d'utiliser l'appli sans connexion.
 // Après chaque modification d'un fichier, augmente le numéro de VERSION
 // pour que les appareils déjà installés récupèrent la nouvelle version.
-const VERSION = "v1";
+const VERSION = "v2";
 const CACHE = "maths-quotidien-" + VERSION;
 const FICHIERS = [
   "./",
@@ -16,7 +16,13 @@ const FICHIERS = [
 ];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FICHIERS)).then(() => self.skipWaiting()));
+  // Chaque fichier est enregistré séparément : s'il en manque un sur le site,
+  // les autres sont quand même gardés et l'appli reste utilisable.
+  e.waitUntil(
+    caches.open(CACHE)
+      .then(c => Promise.all(FICHIERS.map(f => c.add(f).catch(() => console.warn("Fichier manquant :", f)))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", e => {

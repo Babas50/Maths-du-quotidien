@@ -3,6 +3,7 @@
   "short_name": "Maths quotidien",
   "description": "Règle de trois, soldes et pourcentages, conversions de mesures, avec la méthode expliquée pas à pas.",
   "lang": "fr",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
